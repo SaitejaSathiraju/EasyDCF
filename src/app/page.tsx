@@ -1,103 +1,184 @@
-import Image from "next/image";
+"use client";
+
+import { cn } from "@/lib/utils";
+import { DotPattern } from "@/components/magicui/dot-pattern";
+import { ReNavbar } from "@/components/magicui/renav";
+import Footer from "@/components/magicui/footer";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      <ReNavbar />
+      <div className="relative w-full overflow-visible flex flex-col items-center justify-center gap-8 py-10 min-h-screen">
+        {/* DotPattern absolutely positioned behind text, full size */}
+        <DotPattern className="absolute inset-0 w-full h-full z-0" />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        {/* Text content with higher z-index */}
+        <h1 className="text-6xl z-10 relative flex justify-center font-extrabold">Easy<span className="text-orange-600">DCF</span></h1>
+        <h3 className="bg-white text-4xl z-10 relative text-bold px-3"> Unlock Your MSME’s Cash Flow Faster with Smart Discounted Cash Flow Solutions</h3>
+
+        <br></br>
+<section className="py-12 bg-gray-50/35 text-center max-w-5xl mx-auto px-4 z-10">
+    <h2 className="text-3xl font-semibold mb-10">Key Numbers at a Glance</h2>
+    <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+      <div className="bg-white p-6 rounded-lg shadow">
+        <p className="text-orange-600 text-3xl font-bold">63 million</p>
+        <p className="mt-2">MSMEs in India</p>
+      </div>
+      <div className="bg-white p-6 rounded-lg shadow">
+        <p className="text-orange-600 text-3xl font-bold">Nearly 30%</p>
+        <p className="mt-2">Contribution to India’s GDP</p>
+      </div>
+      <div className="bg-white p-6 rounded-lg shadow">
+        <p className="text-orange-600 text-3xl font-bold">₹38 lakh crores</p>
+        <p className="mt-2">Annual Turnover by MSMEs</p>
+      </div>
+      <div className="bg-white p-6 rounded-lg shadow">
+        <p className="text-orange-600 text-3xl font-bold">180-700 days</p>
+        <p className="mt-2">Average Payment Delay (State Govt)</p>
+      </div>
+      <div className="bg-white p-6 rounded-lg shadow">
+        <p className="text-orange-600 text-3xl font-bold">₹10-15 lakh crores</p>
+        <p className="mt-2">Cash Flow Gap Annually</p>
+      </div>
+      <div className="bg-white p-6 rounded-lg shadow">
+        <p className="text-orange-600 text-3xl font-bold">Up to 90%</p>
+        <p className="mt-2">Receivables Paid Instantly</p>
+      </div>
+      <div className="bg-white p-6 rounded-lg shadow">
+        <p className="text-orange-600 text-3xl font-bold">90-180 days</p>
+        <p className="mt-2">Govt Tender Payment Delays</p>
+      </div>
+      <div className="bg-white p-6 rounded-lg shadow">
+        <p className="text-orange-600 text-3xl font-bold">₹500+ crores</p>
+        <p className="mt-2">Working Capital Unlocked by Easy<span className="text-orange-600">DCF</span></p>
+      </div>
+      <div className="bg-white p-6 rounded-lg shadow">
+        <p className="text-orange-600 text-3xl font-bold">24-48 hours</p>
+        <p className="mt-2">Cash Received After Acceptance</p>
+      </div>
     </div>
+  </section>
+
+
+
+
+    <section className="max-w-4xl mx-auto px-4 py-12  text-gray-800 bg-gray-50/35 z-2 ">
+      
+    <h1 className="text-3xl font-bold text-center mb-6">
+      Welcome to Easy<span className="text-orange-600">DCF</span> — Empowering MSMEs to Get Paid Faster!
+    </h1>
+    <p className="mb-6 text-lg leading-relaxed">
+      Did you know there are over <strong>63 million MSMEs</strong> in India,
+      contributing nearly <strong>30%</strong> of the country’s GDP and generating around 
+      <strong> ₹38 lakh crores</strong> in annual turnover? Yet, a major challenge persists — 
+      delayed payments that cripple cash flow and stall growth.
+    </p>
+
+    <h2 className="text-2xl font-semibold mt-10 mb-4 flex justify-center">What We Do</h2>
+    <p className="mb-4">
+      At EasyDCF, we revolutionize the way MSMEs manage their receivables by leveraging
+      Discounted Cash Flow (DCF) techniques. Our innovative platform helps you:
+    </p>
+    <ul className="list-disc list-inside space-y-2 mb-6">
+      <li><strong>Get paid faster:</strong> Convert your invoices and future receivables into immediate cash.</li>
+      <li><strong>Improve cash flow:</strong> Maintain liquidity without waiting for long credit cycles.</li>
+      <li><strong>Boost business growth:</strong> Invest in expansion, inventory, and operations without cash crunches.</li>
+    </ul>
+
+    <h2 className="text-2xl font-semibold mt-10 mb-4 flex justify-center">Why Easy<span className="text-orange-600">DCF </span> ?</h2>
+    <ul className="list-disc list-inside space-y-2 mb-6">
+      <li>Over <strong>63 million MSMEs</strong> in India struggle with delayed payments averaging <strong>30-60+ days</strong>.</li>
+      <li>Cash flow gap of <strong>₹10-15 lakh crores</strong> annually due to payment delays.</li>
+      <li>Our DCF model discounts future cash flows at market rates to give you upfront working capital.</li>
+      <li>Receive up to <strong>90%</strong> of your receivables instantly, rather than waiting weeks or months.</li>
+      <li>Trusted by hundreds of MSMEs across sectors like manufacturing, services, retail, and more.</li>
+    </ul>
+
+    <h2 className="text-2xl font-semibold mt-10 mb-4 flex justify-center">
+      Advantages of DCF for Government Tender MSMEs
+    </h2>
+    <p className="mb-4">
+      For MSMEs working on government contracts, payment delays can stretch to <strong>90–180 days</strong>, 
+      leading to serious cash flow issues. Here’s why DCF is a game-changer:
+    </p>
+    <ul className="list-disc list-inside space-y-2 mb-6">
+      <li><strong>Faster Access to Capital:</strong> Get funds against govt receivables without delay.</li>
+      <li><strong>Reduced Financial Stress:</strong> Run operations smoothly without cash flow bottlenecks.</li>
+      <li><strong>Leverage Predictable Flows:</strong> Government contracts have reliable payment schedules, ideal for DCF.</li>
+      <li><strong>Avoid High-Interest Loans:</strong> DCF financing is a low-cost alternative to short-term borrowing.</li>
+      <li><strong>Stay Competitive:</strong> With faster liquidity, you can win more bids and deliver on time.</li>
+    </ul>
+ 
+    
+  </section>
+
+
+  <br></br>
+<section className="py-12 bg-white/60 text-center max-w-5xl mx-auto px-4 z-10">
+  <h2 className="text-3xl font-semibold mb-6">Latest MSME News</h2>
+  <div className="space-y-8">
+    <article>
+      <h3 className="text-xl font-semibold text-orange-600">
+        Gujarat Partners with Amazon to Boost MSME Exports
+      </h3>
+      <p className="mt-2">
+        The Gujarat government has signed an MoU with Amazon India to enhance exports from the state's MSMEs. This collaboration includes workshops, training sessions, and support for launching export operations via e-commerce. :contentReference[oaicite:5]
+      </p>
+      <a
+        href="https://timesofindia.indiatimes.com/city/ahmedabad/gujarat-govt-partners-with-amazon-india-to-boost-msme-exports/articleshow/121657304.cms"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-orange-600 hover:underline"
+      >
+        Read more
+      </a>
+    </article>
+
+    <article>
+      <h3 className="text-xl font-semibold text-orange-600">
+        Coimbatore to Host ₹200 Crore Technology Centre for MSMEs
+      </h3>
+      <p className="mt-2">
+        The Union MSME Ministry is establishing a state-of-the-art technology centre in Coimbatore with an investment of ₹200 crore. The centre will provide advanced manufacturing technologies and skill development to support MSMEs. :contentReference[oaicite:6]
+      </p>
+      <a
+        href="https://timesofindia.indiatimes.com/city/coimbatore/technology-centre-to-come-up-in-coimbatore-at-200-crore/articleshow/121541946.cms"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-orange-600 hover:underline"
+      >
+        Read more
+      </a>
+    </article>
+
+    <article>
+      <h3 className="text-xl font-semibold text-orange-600">
+        UP Government Launches Export Growth Campaign for MSMEs
+      </h3>
+      <p className="mt-2">
+        The Uttar Pradesh government has launched the Uttar Pradesh Export Growth Campaign (UPNVA) to empower 500 MSMEs. The initiative includes training, mentorship, and support for accessing international markets. :contentReference[oaicite:7]
+      </p>
+      <a
+        href="https://timesofindia.indiatimes.com/city/lucknow/up-govt-prioritises-msmes-with-new-export-growth-campaign/articleshow/121524760.cms"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-orange-600 hover:underline"
+      >
+        Read more
+      </a>
+    </article>
+  </div>
+</section>
+
+  
+  
+
+
+      </div>
+      <Footer  />
+    
+     
+    </>
   );
 }
