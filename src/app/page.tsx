@@ -4,7 +4,7 @@
 import { DotPattern } from "@/components/magicui/dot-pattern";
 import { ReNavbar } from "@/components/magicui/renav";
 import Footer from "@/components/magicui/footer";
-import { SignInButton } from "@clerk/nextjs";
+
 
 export default function Home() {
   return (
@@ -18,8 +18,8 @@ export default function Home() {
         {/* Text content with higher z-index */}
         <h1 className="text-6xl z-10 relative flex justify-center font-extrabold">Easy<span className="text-orange-600">DCF</span></h1>
         <h3 className="bg-white text-4xl z-10 relative text-bold px-3"> Unlock Your MSME’s Cash Flow Faster with Smart Discounted Cash Flow Solutions</h3>
-<div className="text-2xl text-bold bg-orange-500 border-2 border-black rounded-2xl px-2 z-20">
-  <SignInButton mode="modal">Try Now for Free (click here) !</SignInButton>
+<div className="">
+  
  
 
 </div>

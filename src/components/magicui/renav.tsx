@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { SignInButton, UserButton } from "@clerk/nextjs";
+import { SignInButton, UserButton, useUser } from "@clerk/nextjs"; // <-- import useUser
 import { IconMenu2, IconX } from "@tabler/icons-react";
 
 import {
@@ -8,13 +8,11 @@ import {
   AnimatePresence,
   useScroll,
   useMotionValueEvent,
-} from "framer-motion"; // <-- fixed import here
+} from "framer-motion";
 import Link from "next/link";
- // import { Span } from "next/dist/trace";
 
 import React, { useRef, useState } from "react";
 
-// Interfaces (you can keep these as-is if used elsewhere)
 interface NavItemsProps {
   items: {
     name: string;
@@ -24,14 +22,11 @@ interface NavItemsProps {
   onItemClick?: () => void;
 }
 
-// Replace this with your actual items
 const navItems = [
   { name: "Home", link: "/" },
   { name: "About", link: "/about" },
   { name: "Contact", link: "/contact" },
-  { name: "services", link: "/services" },
-
- 
+  { name: "services", link: "/calculator" },
 ];
 
 export const ReNavbar = ({ className }: { className?: string }) => {
@@ -43,7 +38,9 @@ export const ReNavbar = ({ className }: { className?: string }) => {
   const [visible, setVisible] = useState<boolean>(false);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
-  useMotionValueEvent(scrollY, "change", (latest: number) => { // <-- typed here
+  const { isSignedIn } = useUser(); // <-- get auth state here
+
+  useMotionValueEvent(scrollY, "change", (latest: number) => {
     setVisible(latest > 100);
   });
 
@@ -73,19 +70,20 @@ export const ReNavbar = ({ className }: { className?: string }) => {
       >
         <NavbarLogo />
         <NavItems items={navItems} />
-        
+
         <NavbarButton href="/dashboard">Get Started</NavbarButton>
-        <div className=" text-bold bg-orange-500 border-2 border-black rounded-2xl px-2">
-        <SignInButton  > SignIN </SignInButton>
-       
-        
-        </div>
-        <div className="border-2 border-black rounded-full"><UserButton /></div>
-        
+
+        {/* Conditional rendering SignIn/User buttons */}
+        {!isSignedIn ? (
+          <div className="text-bold bg-orange-500 border-2 border-black rounded-2xl px-2">
+            <SignInButton>Sign In</SignInButton>
+          </div>
+        ) : (
+          <div className="  ">
+            <UserButton />
+          </div>
+        )}
       </motion.div>
-
-
-
 
       {/* Mobile Nav */}
       <motion.div
@@ -129,12 +127,17 @@ export const ReNavbar = ({ className }: { className?: string }) => {
               <NavbarButton href="/dashboard" className="mt-2 w-full">
                 Get Started
               </NavbarButton>
-              <div className=" text-bold bg-orange-500 border-2 border-black rounded-2xl px-2">
-        <SignInButton  > SignIN </SignInButton>
-        </div>
-        <div className="flex justify-centre border-2 border-black rounded-full">
-        <UserButton />
-        </div>
+
+              {/* Mobile Conditional SignIn/User buttons */}
+              {!isSignedIn ? (
+                <div className="text-bold bg-orange-500 border-2 border-black rounded-2xl px-2">
+                  <SignInButton>Sign In</SignInButton>
+                </div>
+              ) : (
+                <div className="flex justify-center border-2 border-black rounded-full">
+                  <UserButton />
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
@@ -143,7 +146,7 @@ export const ReNavbar = ({ className }: { className?: string }) => {
   );
 };
 
-// Remaining components below
+// Other components unchanged
 
 export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
@@ -179,18 +182,12 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
 
 export const NavbarLogo = () => {
   return (
-    <>
-    <Link 
+    <Link
       href="/"
       className="flex items-center space-x-2 text-2xl font-bold text-black dark:text-white"
     >
       <span className="text-orange-600">EasyDCF</span>
-      </ Link >
-      
-
-      </>
-   
-    
+    </Link>
   );
 };
 
@@ -207,10 +204,7 @@ export const NavbarButton = ({
   children: React.ReactNode;
   className?: string;
   variant?: "primary" | "secondary" | "dark" | "gradient";
-} & (
-  | React.ComponentPropsWithoutRef<"a">
-  | React.ComponentPropsWithoutRef<"button">
-)) => {
+} & (React.ComponentPropsWithoutRef<"a"> | React.ComponentPropsWithoutRef<"button">)) => {
   const baseStyles =
     "px-4 py-2 rounded-md text-sm font-bold inline-block text-center transition duration-200 hover:-translate-y-0.5";
 

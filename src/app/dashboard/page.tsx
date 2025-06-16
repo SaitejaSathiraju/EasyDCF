@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
+import CountUp from 'react-countup';
 import { ReNavbar } from '@/components/magicui/renav';
 
 const states = [
-  
   'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat',
   'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh',
   'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab',
@@ -14,38 +15,51 @@ const states = [
 
 type FormDataType = {
   id?: number;
-  companyName: string;
-  tenderStartDate: string;
-  tenderEndDate: string;
-  companyNumber: string;
+  companyname: string;
+  tenderstartdate: string;
+  tenderenddate: string;
+  companynumber: string;
   email: string;
-  phoneNumber: string;
+  phonenumber: string;
   address: string;
-  tenderWorth: string;
+  tenderworth: string;
   margin: string;
-  gstNumber: string;
-  supplyTo: string;
-  stateGovernment: string;
+  gstnumber: string;
+  supplyto: string;
+  stategovernment: string;
+
 };
+
+const formatNumber = (num: number) => {
+  return num.toLocaleString('en-IN', { maximumFractionDigits: 2 });
+};
+console.log(formatNumber);
 
 export default function UserForm() {
   const [formData, setFormData] = useState<FormDataType>({
-    companyName: '',
-    tenderStartDate: '',
-    tenderEndDate: '',
-    companyNumber: '',
+    companyname: '',
+    tenderstartdate: '',
+    tenderenddate: '',
+    companynumber: '',
     email: '',
-    phoneNumber: '',
+    phonenumber: '',
     address: '',
-    tenderWorth: '',
+    tenderworth: '',
     margin: '',
-    gstNumber: '',
-    supplyTo: '',
-    stateGovernment: '',
+    gstnumber: '',
+    supplyto: '',
+    stategovernment: '',
+
   });
 
   const [allForms, setAllForms] = useState<FormDataType[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const [stats, setStats] = useState({
+    totalForms: 0,
+    totalWorth: 0,
+    averageMargin: 0,
+  });
 
   useEffect(() => {
     async function fetchForms() {
@@ -55,9 +69,20 @@ export default function UserForm() {
       if (data.forms && Array.isArray(data.forms) && data.forms.length > 0) {
         setAllForms(data.forms);
         setFormData(data.forms[data.forms.length - 1]);
+
+        const totalWorth = data.forms.reduce((acc: number, form: FormDataType) => acc + parseFloat(form.tenderworth || '0'), 0);
+        const averageMargin = data.forms.reduce((acc: number, form: FormDataType) => acc + parseFloat(form.margin || '0'), 0) / data.forms.length;
+
+        setStats({
+          totalForms: data.forms.length,
+          totalWorth,
+          averageMargin,
+        });
       }
+
       setLoading(false);
     }
+
     fetchForms();
   }, []);
 
@@ -80,11 +105,20 @@ export default function UserForm() {
 
     if (res.ok) {
       alert('Form saved!');
-
       const refreshed = await fetch('/api/user-form');
       const data = await refreshed.json();
+
       if (data.forms && Array.isArray(data.forms)) {
         setAllForms(data.forms);
+
+        const totalWorth = data.forms.reduce((acc: number, form: FormDataType) => acc + parseFloat(form.tenderworth || '0'), 0);
+        const averageMargin = data.forms.reduce((acc: number, form: FormDataType) => acc + parseFloat(form.margin || '0'), 0) / data.forms.length;
+
+        setStats({
+          totalForms: data.forms.length,
+          totalWorth,
+          averageMargin,
+        });
       }
     } else {
       alert('Error saving form.');
@@ -94,211 +128,140 @@ export default function UserForm() {
   if (loading) return <div className="text-black text-center mt-8">Loading...</div>;
 
   return (
-
     <>
-    <ReNavbar />
-    <div>
-      <h1 className='text-4xl text-bold flex justify-center text-orange-600'>EasyDCF -DashBoard</h1>
-    </div>
-    <div className="max-w-3xl mx-auto bg-white p-8 rounded shadow-lg mt-8">
-      <form onSubmit={handleSubmit} className="mb-10">
-        {/* Company Name */}
-        <label className="block mb-4 text-black font-semibold">
-          Company Name:
-          <input
-            name="companyName"
-            value={formData.companyName}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded border border-orange-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 text-black"
-          />
-        </label>
+      <ReNavbar />
+      <div className="mb-10 mt-6 text-center">
+        <h1 className="text-4xl font-extrabold text-orange-600 tracking-wide">
+          EasyDCF - Dashboard
+        </h1>
+        <p className="text-gray-700 mt-2">Manage your tender submissions easily</p>
+      </div>
 
-        {/* Tender Start Date */}
-        <label className="block mb-4 text-black font-semibold">
-          Tender Supply Start Date:
-          <input
-            type="date"
-            name="tenderStartDate"
-            value={formData.tenderStartDate}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded border border-orange-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 text-black"
-          />
-        </label>
+      {/* Dashboard Counters */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto my-10">
+        <div className="bg-orange-100 border border-orange-400 p-6 rounded-xl shadow text-center">
+          <h3 className="text-lg font-bold text-orange-600 mb-2">Total Submissions</h3>
+          <CountUp end={stats.totalForms} duration={1.5} className="text-3xl font-extrabold text-black" />
+        </div>
+        <div className="bg-orange-100 border border-orange-400 p-6 rounded-xl shadow text-center">
+          <h3 className="text-lg font-bold text-orange-600 mb-2">Total Tender Worth (₹)</h3>
+          <CountUp end={stats.totalWorth} duration={2} separator="," className="text-3xl font-extrabold text-black" />
+        </div>
+        <div className="bg-orange-100 border border-orange-400 p-6 rounded-xl shadow text-center">
+          <h3 className="text-lg font-bold text-orange-600 mb-2">Avg. Margin (₹)</h3>
+          <CountUp end={stats.averageMargin} duration={2} separator="," decimals={2} className="text-3xl font-extrabold text-black" />
+        </div>
+      </div>
 
-        {/* Tender End Date */}
-        <label className="block mb-4 text-black font-semibold">
-          Tender Supply End Date:
-          <input
-            type="date"
-            name="tenderEndDate"
-            value={formData.tenderEndDate}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded border border-orange-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 text-black"
-          />
-        </label>
+      {/* Form */}
+      <div className="max-w-4xl mx-auto bg-white p-10 rounded-2xl shadow-xl border border-orange-300">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Full Form Fields */}
+          <label className="block">
+            <span className="text-black font-semibold mb-1 block">Company Name</span>
+            <input name="companyname" value={formData.companyname} onChange={handleChange} required placeholder="Enter company name" className="w-full rounded-lg border border-orange-600 px-4 py-3 text-black placeholder-orange-300" />
+          </label>
 
-        {/* Company Number */}
-        <label className="block mb-4 text-black font-semibold">
-          Company Number:
-          <input
-            name="companyNumber"
-            value={formData.companyNumber}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded border border-orange-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 text-black"
-          />
-        </label>
+          <label className="block">
+            <span className="text-black font-semibold mb-1 block">Tender Supply Start Date</span>
+            <input type="date" name="tenderstartdate" value={formData.tenderstartdate} onChange={handleChange} required className="w-full rounded-lg border border-orange-600 px-4 py-3 text-black" />
+          </label>
 
-        {/* Email */}
-        <label className="block mb-4 text-black font-semibold">
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded border border-orange-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 text-black"
-          />
-        </label>
+          <label className="block">
+            <span className="text-black font-semibold mb-1 block">Tender Supply End Date</span>
+            <input type="date" name="tenderenddate" value={formData.tenderenddate} onChange={handleChange} required className="w-full rounded-lg border border-orange-600 px-4 py-3 text-black" />
+          </label>
 
-        {/* Phone Number */}
-        <label className="block mb-4 text-black font-semibold">
-          Phone Number:
-          <input
-            type="tel"
-            name="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded border border-orange-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 text-black"
-          />
-        </label>
+          <label className="block">
+            <span className="text-black font-semibold mb-1 block">Company Number</span>
+            <input name="companynumber" value={formData.companynumber} onChange={handleChange} required placeholder="Enter company number" className="w-full rounded-lg border border-orange-600 px-4 py-3 text-black placeholder-orange-300" />
+          </label>
 
-        {/* Address */}
-        <label className="block mb-4 text-black font-semibold">
-          Address:
-          <textarea
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            required
-            rows={3}
-            className="mt-1 block w-full rounded border border-orange-600 px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 text-black"
-          />
-        </label>
+          <label className="block">
+            <span className="text-black font-semibold mb-1 block">Email</span>
+            <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="your@email.com" className="w-full rounded-lg border border-orange-600 px-4 py-3 text-black placeholder-orange-300" />
+          </label>
 
-        {/* Tender Worth */}
-        <label className="block mb-4 text-black font-semibold">
-          Tender Worth:
-          <input
-            name="tenderWorth"
-            value={formData.tenderWorth}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded border border-orange-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 text-black"
-          />
-        </label>
+          <label className="block">
+            <span className="text-black font-semibold mb-1 block">Phone Number</span>
+            <input type="tel" name="phonenumber" value={formData.phonenumber} onChange={handleChange} required placeholder="+91 9876543210" className="w-full rounded-lg border border-orange-600 px-4 py-3 text-black placeholder-orange-300" />
+          </label>
 
-        {/* Margin */}
-        <label className="block mb-4 text-black font-semibold">
-          Margin:
-          <input
-            name="margin"
-            value={formData.margin}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded border border-orange-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 text-black"
-          />
-        </label>
+          <label className="block">
+            <span className="text-black font-semibold mb-1 block">Address</span>
+            <textarea name="address" value={formData.address} onChange={handleChange} required rows={4} placeholder="Enter your company address" className="w-full rounded-lg border border-orange-600 px-4 py-3 resize-none text-black placeholder-orange-300" />
+          </label>
 
-        {/* GST Number */}
-        <label className="block mb-4 text-black font-semibold">
-          GST Number:
-          <input
-            name="gstNumber"
-            value={formData.gstNumber}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded border border-orange-600 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 text-black"
-          />
-        </label>
+          <label className="block">
+            <span className="text-black font-semibold mb-1 block">Tender Worth</span>
+            <input name="tenderworth" value={formData.tenderworth} onChange={handleChange} required placeholder="Enter tender worth" className="w-full rounded-lg border border-orange-600 px-4 py-3 text-black placeholder-orange-300" />
+          </label>
 
-        {/* Supply To */}
-        <label className="block mb-4 text-black font-semibold">
-          Supply To:
-          <select
-            name="supplyTo"
-            value={formData.supplyTo}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded border border-orange-600 px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 text-black"
-          >
-            <option value="">Select...</option>
-            <option value="State Govt">State Govt</option>
-            <option value="Central Govt">Central Govt</option>
-            <option value="Private">Private</option>
-          </select>
-        </label>
+          <label className="block">
+            <span className="text-black font-semibold mb-1 block">Margin</span>
+            <input name="margin" value={formData.margin} onChange={handleChange} required placeholder="Enter margin amount" className="w-full rounded-lg border border-orange-600 px-4 py-3 text-black placeholder-orange-300" />
+          </label>
 
-        {/* State Government (conditional) */}
-        {formData.supplyTo === 'State Govt' && (
-          <label className="block mb-4 text-black font-semibold">
-            Which State Government?
-            <select
-              name="stateGovernment"
-              value={formData.stateGovernment}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full rounded border border-orange-600 px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-orange-600 text-black"
-            >
-              <option value="">Select State...</option>
-              {states.map(state => (
-                <option key={state} value={state}>{state}</option>
-              ))}
+          <label className="block">
+            <span className="text-black font-semibold mb-1 block">GST Number</span>
+            <input name="gstnumber" value={formData.gstnumber} onChange={handleChange} required placeholder="Enter GST number" className="w-full rounded-lg border border-orange-600 px-4 py-3 text-black placeholder-orange-300" />
+          </label>
+
+          <label className="block">
+            <span className="text-black font-semibold mb-1 block">Supply To</span>
+            <select name="supplyto" value={formData.supplyto} onChange={handleChange} required className="w-full rounded-lg border border-orange-600 px-4 py-3 bg-white text-black">
+              <option value="">Select...</option>
+              <option value="State Govt">State Govt</option>
+              <option value="Central Govt">Central Govt</option>
+              <option value="Private">Private</option>
             </select>
           </label>
-        )}
 
-        <button
-          type="submit"
-          className="mt-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold px-6 py-2 rounded transition-colors duration-300"
-        >
-          Save
-        </button>
-      </form>
-
-      <hr className="my-8 border-gray-300" />
-
-      <h2 className="text-2xl font-bold mb-6 text-black">Previous Submissions</h2>
-
-      {allForms.length === 0 && <p className="text-black">No previous submissions found.</p>}
-
-      {allForms.map((form, idx) => (
-        <div
-          key={form.id ?? idx}
-          className="mb-6 p-4 border border-orange-600 rounded bg-white text-black shadow-sm"
-        >
-          <p><strong>Company Name:</strong> {form.companyName}</p>
-          <p><strong>Tender Start Date:</strong> {form.tenderStartDate}</p>
-          <p><strong>Tender End Date:</strong> {form.tenderEndDate}</p>
-          <p><strong>Company Number:</strong> {form.companyNumber}</p>
-          <p><strong>Email:</strong> {form.email}</p>
-          <p><strong>Phone Number:</strong> {form.phoneNumber}</p>
-          <p><strong>Address:</strong> {form.address}</p>
-          <p><strong>Tender Worth:</strong> {form.tenderWorth}</p>
-          <p><strong>Margin:</strong> {form.margin}</p>
-          <p><strong>GST Number:</strong> {form.gstNumber}</p>
-          <p><strong>Supply To:</strong> {form.supplyTo}</p>
-          {form.supplyTo === 'State Govt' && (
-            <p><strong>State Government:</strong> {form.stateGovernment}</p>
+          {formData.supplyto === 'State Govt' && (
+            <label className="block">
+              <span className="text-black font-semibold mb-1 block">Which State Government?</span>
+              <select name="stategovernment" value={formData.stategovernment} onChange={handleChange} required className="w-full rounded-lg border border-orange-600 px-4 py-3 bg-white text-black">
+                <option value="">Select State...</option>
+                {states.map(state => (
+                  <option key={state} value={state}>{state}</option>
+                ))}
+              </select>
+            </label>
           )}
-        </div>
-      ))}
-    </div>
+
+          <button type="submit" className="w-full mt-6 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white font-bold py-3 rounded-lg shadow-lg transition duration-300">
+            Save
+          </button>
+        </form>
+
+        <hr className="my-12 border-orange-300" />
+
+        <h2 className="text-3xl font-bold mb-6 text-orange-600 tracking-wide">Previous Submissions</h2>
+
+        {allForms.length === 0 ? (
+          <p className="text-black text-center italic">No previous submissions found.</p>
+        ) : (
+          <div className="space-y-6">
+            {allForms.map((form, idx) => (
+              <div key={form.id ?? idx} className="p-6 border-2 border-orange-600 rounded-xl bg-orange-50 shadow-md text-black">
+               <p><strong>Company Name:</strong> {form.companyname || '-'}</p>
+<p><strong>Tender Start Date:</strong> {form.tenderstartdate ? new Date(form.tenderstartdate).toLocaleDateString() : '-'}</p>
+<p><strong>Tender End Date:</strong> {form.tenderenddate ? new Date(form.tenderenddate).toLocaleDateString() : '-'}</p>
+<p><strong>Company Number:</strong> {form.companynumber || '-'}</p>
+<p><strong>Email:</strong> {form.email || '-'}</p>
+<p><strong>Phone Number:</strong> {form.phonenumber || '-'}</p>
+<p><strong>Address:</strong> {form.address || '-'}</p>
+<p><strong>Tender Worth:</strong> {form.tenderworth != null ? `₹${form.tenderworth}` : '-'}</p>
+<p><strong>Margin:</strong> {form.margin != null ? `₹${form.margin}` : '-'}</p>
+<p><strong>GST Number:</strong> {form.gstnumber || '-'}</p>
+<p><strong>Supply To:</strong> {form.supplyto || '-'}</p>
+<p><strong>State Government:</strong> {form.stategovernment || '-'}</p>
+
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </>
   );
 }
