@@ -72,7 +72,7 @@ export default function AdminPage() {
       setUsername(savedUser);
       setPassword(savedPass);
       setLoggedIn(true);
-      fetchForms();
+      fetchForms(savedUser, savedPass);
     }
     if (savedCompletedIds) {
       try {
@@ -84,17 +84,12 @@ export default function AdminPage() {
     }
   }, []);
 
-  async function fetchForms() {
+  async function fetchForms(user: string, pass: string) {
     setLoading(true);
     setError('');
     try {
-      // Fetch from admin API route with hardcoded credentials
-      const adminUsername = 'admin123';
-      const adminPassword = 'secret456';
       const res = await fetch(
-        `/api/admin/adminroute?username=${encodeURIComponent(
-          adminUsername
-        )}&password=${encodeURIComponent(adminPassword)}`
+        `/api/admin/adminroute?username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`
       );
       if (!res.ok) {
         throw new Error('Failed to fetch forms');
@@ -112,21 +107,13 @@ export default function AdminPage() {
     }
   }
 
-  // Removed unused financeForms, financeStats, fetchFinanceForms to fix error
-
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setError('');
     setLoading(true);
     try {
-      // Use hardcoded admin credentials for login
-      const adminUsername = 'admin123';
-      const adminPassword = 'secret456';
-    
       const res = await fetch(
-        `/api/admin/adminroute?username=${encodeURIComponent(
-          adminUsername
-        )}&password=${encodeURIComponent(adminPassword)}`
+        `/api/admin/adminroute?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
       );
       if (!res.ok) {
         setError('Invalid username or password');
@@ -137,8 +124,8 @@ export default function AdminPage() {
       setForms(data.forms ?? []);
       setLoggedIn(true);
       localStorage.setItem('adminLoggedIn', 'true');
-      localStorage.setItem('adminUsername', adminUsername);
-      localStorage.setItem('adminPassword', adminPassword);
+      localStorage.setItem('adminUsername', username);
+      localStorage.setItem('adminPassword', password);
     } catch {
       setError('Login failed. Try again.');
     } finally {
@@ -151,7 +138,6 @@ export default function AdminPage() {
     setUsername('');
     setPassword('');
     setForms([]);
-    //setFinanceForms([]);
     setCompletedIds(new Set());
     setError('');
     localStorage.removeItem('adminLoggedIn');
@@ -235,7 +221,6 @@ export default function AdminPage() {
         <span className="text-orange-600">{forms.length}</span>
       </div>
 
-      {/* New counters section */}
       <div className="mb-8 grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
         <div className="p-4 bg-white rounded shadow">
           <div className="text-2xl font-bold text-orange-600">{forms.length}</div>
