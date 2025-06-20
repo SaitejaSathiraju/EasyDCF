@@ -24,7 +24,7 @@ export default function Error404() {
           </h1>
 
           <p className="text-lg sm:text-xl max-w-3xl mx-auto mb-10">
-            Sorry, the page you're looking for doesn&apos;t exist or has been moved.
+            Sorry, the page you&apos;re looking for doesn&apos;t exist or has been moved.
             At <span className="text-orange-600 font-semibold">EasyDCF</span>, we&apos;re all about simplifying your fintech and trade journeys — 
             but this page seems to have wandered off.
           </p>
