@@ -1,184 +1,179 @@
 "use client";
 
-
-import { DotPattern } from "@/components/magicui/dot-pattern";
 import { ReNavbar } from "@/components/magicui/renav";
+import { DotPattern } from "@/components/magicui/dot-pattern";
 import Footer from "@/components/magicui/footer";
-import { SignInButton } from "@clerk/nextjs";
+import { FaEnvelope, FaMapMarkerAlt, FaLinkedin, FaTwitter, FaFacebook } from "react-icons/fa";
 
-export default function Home() {
+export default function Contact() {
   return (
     <>
       <ReNavbar />
-      <br></br>
-      <div className="relative w-full overflow-visible flex flex-col items-center justify-center gap-8 py-10 min-h-screen">
-        {/* DotPattern absolutely positioned behind text, full size */}
-        <DotPattern className="absolute inset-0 w-full h-full z-0" />
+      <div className="relative w-full min-h-screen overflow-visible flex flex-col items-center justify-center gap-12 py-16 bg-white px-4 sm:px-8 lg:px-16">
+        <DotPattern className="absolute inset-0 w-full min-h-screen h-full z-0" />
 
-        {/* Text content with higher z-index */}
-        <h1 className="text-6xl z-10 relative flex justify-center font-extrabold">Easy<span className="text-orange-600">DCF</span></h1>
-        <h3 className="bg-white text-4xl z-10 relative text-bold px-3"> Unlock Your MSME’s Cash Flow Faster with Smart Discounted Cash Flow Solutions</h3>
-<div className="text-2xl text-bold bg-orange-500 border-2 border-black rounded-2xl px-2 z-20">
-  <SignInButton mode="modal">Try Now for Free (click here) !</SignInButton>
- 
+        <div className="relative z-10 max-w-5xl w-full mx-auto text-gray-800">
+          <h1 className="text-5xl font-extrabold text-center mb-10">
+            Contact <span className="text-orange-600">EasyDCF</span>
+          </h1>
 
-</div>
-        <br></br>
-<section className="py-12 bg-gray-50/35 text-center max-w-5xl mx-auto px-4 z-10">
-    <h2 className="text-3xl font-semibold mb-10">Key Numbers at a Glance</h2>
-    <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-      <div className="bg-white p-6 rounded-lg shadow">
-        <p className="text-orange-600 text-3xl font-bold">63 million</p>
-        <p className="mt-2">MSMEs in India</p>
+          <p className="text-center text-lg mb-14 max-w-3xl mx-auto">
+            We’re headquartered in Hyderabad, India, dedicated to empowering MSMEs across the nation. Whether you have questions, partnership ideas, or want to invest, we’re here to connect.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-14">
+            {/* Left: Contact Details + Socials */}
+            <div className="space-y-10">
+              <div className="bg-orange-50 border border-orange-300 rounded-lg p-8 shadow-md">
+                <h2 className="text-2xl font-bold mb-6 text-orange-600 flex items-center gap-3">
+                  <FaMapMarkerAlt /> Our Location
+                </h2>
+                <p className="text-lg leading-relaxed">
+                  EasyDCF Pvt Ltd <br />
+                  5th Floor, TechPark Towers <br />
+                  Hitech City, Hyderabad <br />
+                  Telangana, India - 500081
+                </p>
+              </div>
+
+              <div className="bg-orange-50 border border-orange-300 rounded-lg p-8 shadow-md">
+                <h2 className="text-2xl font-bold mb-6 text-orange-600 flex items-center gap-3">
+                  <FaEnvelope /> Email & Phone
+                </h2>
+                <p className="text-lg mb-3">
+                  Email:{" "}
+                  <a href="mailto:support@easydcf.in" className="text-orange-600 hover:underline">
+                    support@easydcf.in
+                  </a>
+                </p>
+                <p className="text-lg">
+                  Phone:{" "}
+                  <a href="tel:+914012345678" className="text-orange-600 hover:underline">
+                    +91 40 1234 5678
+                  </a>
+                </p>
+              </div>
+
+              <div className="bg-orange-50 border border-orange-300 rounded-lg p-8 shadow-md">
+                <h2 className="text-2xl font-bold mb-6 text-orange-600 flex items-center gap-3">
+                  Connect with Us
+                </h2>
+                <div className="flex gap-8 text-orange-600 text-3xl justify-start">
+                  <a
+                    href="https://www.linkedin.com/company/easydcf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn"
+                    className="hover:text-orange-700 transition"
+                  >
+                    <FaLinkedin />
+                  </a>
+                  <a
+                    href="https://twitter.com/easydcf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Twitter"
+                    className="hover:text-orange-700 transition"
+                  >
+                    <FaTwitter />
+                  </a>
+                  <a
+                    href="https://facebook.com/easydcf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook"
+                    className="hover:text-orange-700 transition"
+                  >
+                    <FaFacebook />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Google Map + Contact Form */}
+            <div className="space-y-10">
+              {/* Google Map Embed */}
+              <div className="rounded-lg overflow-hidden shadow-md h-72 md:h-96 border-2 border-orange-500 bg-white">
+                <iframe
+                  title="EasyDCF Hyderabad Office"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.521676139525!2d78.38671221489832!3d17.447649406106534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb917ff76e140d%3A0x1524db8f3a25b33c!2sTech%20Park%2C%20HITEC%20City%2C%20Hyderabad!5e0!3m2!1sen!2sin!4v1697635221584!5m2!1sen!2sin"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen={false}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+
+              {/* Contact Form */}
+              <section className="bg-white">
+                <h2 className="text-2xl font-bold mb-6 text-orange-600 text-center">Send Us a Message</h2>
+                <form
+                  className="max-w-xl mx-auto space-y-6"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    alert("Thank you for reaching out! We'll get back to you shortly.");
+                    e.currentTarget.reset();
+                  }}
+                >
+                  <div>
+                    <label htmlFor="name" className="block mb-2 font-semibold">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      placeholder="Your full name"
+                      required
+                      className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="email" className="block mb-2 font-semibold">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="you@example.com"
+                      required
+                      className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="block mb-2 font-semibold">
+                      Message
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      rows={5}
+                      placeholder="Write your message here..."
+                      required
+                      className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    />
+                  </div>
+
+                  <div className="text-center">
+                    <button
+                      type="submit"
+                      className="bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-10 rounded-full transition"
+                    >
+                      Send Message
+                    </button>
+                  </div>
+                </form>
+              </section>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="bg-white p-6 rounded-lg shadow">
-        <p className="text-orange-600 text-3xl font-bold">Nearly 30%</p>
-        <p className="mt-2">Contribution to India’s GDP</p>
-      </div>
-      <div className="bg-white p-6 rounded-lg shadow">
-        <p className="text-orange-600 text-3xl font-bold">₹38 lakh crores</p>
-        <p className="mt-2">Annual Turnover by MSMEs</p>
-      </div>
-      <div className="bg-white p-6 rounded-lg shadow">
-        <p className="text-orange-600 text-3xl font-bold">180-700 days</p>
-        <p className="mt-2">Average Payment Delay (State Govt)</p>
-      </div>
-      <div className="bg-white p-6 rounded-lg shadow">
-        <p className="text-orange-600 text-3xl font-bold">₹10-15 lakh crores</p>
-        <p className="mt-2">Cash Flow Gap Annually</p>
-      </div>
-      <div className="bg-white p-6 rounded-lg shadow">
-        <p className="text-orange-600 text-3xl font-bold">Up to 90%</p>
-        <p className="mt-2">Receivables Paid Instantly</p>
-      </div>
-      
-    
-      <div className="bg-white p-6 rounded-lg shadow">
-        <p className="text-orange-600 text-3xl font-bold">24-48 hours</p>
-        <p className="mt-2">Cash Received After Acceptance</p>
-      </div>
-    </div>
-  </section>
-
-
-
-
-    <section className="max-w-4xl mx-auto px-4 py-12  text-gray-800 bg-gray-50/35 z-2 ">
-      
-    <h1 className="text-3xl font-bold text-center mb-6">
-      Welcome to Easy<span className="text-orange-600">DCF</span> — Empowering MSMEs to Get Paid Faster!
-    </h1>
-    <p className="mb-6 text-lg leading-relaxed">
-      Did you know there are over <strong>63 million MSMEs</strong> in India,
-      contributing nearly <strong>30%</strong> of the country’s GDP and generating around 
-      <strong> ₹38 lakh crores</strong> in annual turnover? Yet, a major challenge persists — 
-      delayed payments that cripple cash flow and stall growth.
-    </p>
-
-    <h2 className="text-2xl font-semibold mt-10 mb-4 flex justify-center">What We Do</h2>
-    <p className="mb-4">
-      At EasyDCF, we revolutionize the way MSMEs manage their receivables by leveraging
-      Discounted Cash Flow (DCF) techniques. Our innovative platform helps you:
-    </p>
-    <ul className="list-disc list-inside space-y-2 mb-6">
-      <li><strong>Get paid faster:</strong> Convert your invoices and future receivables into immediate cash.</li>
-      <li><strong>Improve cash flow:</strong> Maintain liquidity without waiting for long credit cycles.</li>
-      <li><strong>Boost business growth:</strong> Invest in expansion, inventory, and operations without cash crunches.</li>
-    </ul>
-
-    <h2 className="text-2xl font-semibold mt-10 mb-4 flex justify-center">Why Easy<span className="text-orange-600">DCF </span> ?</h2>
-    <ul className="list-disc list-inside space-y-2 mb-6">
-      <li>Over <strong>63 million MSMEs</strong> in India struggle with delayed payments averaging <strong>30-60+ days</strong>.</li>
-      <li>Cash flow gap of <strong>₹10-15 lakh crores</strong> annually due to payment delays.</li>
-      <li>Our DCF model discounts future cash flows at market rates to give you upfront working capital.</li>
-      <li>Receive up to <strong>90%</strong> of your receivables instantly, rather than waiting weeks or months.</li>
-      <li>Trusted by hundreds of MSMEs across sectors like manufacturing, services, retail, and more.</li>
-    </ul>
-
-    <h2 className="text-2xl font-semibold mt-10 mb-4 flex justify-center">
-      Advantages of DCF for Government Tender MSMEs
-    </h2>
-    <p className="mb-4">
-      For MSMEs working on government contracts, payment delays can stretch to <strong>90–180 days</strong>, 
-      leading to serious cash flow issues. Here’s why DCF is a game-changer:
-    </p>
-    <ul className="list-disc list-inside space-y-2 mb-6">
-      <li><strong>Faster Access to Capital:</strong> Get funds against govt receivables without delay.</li>
-      <li><strong>Reduced Financial Stress:</strong> Run operations smoothly without cash flow bottlenecks.</li>
-      <li><strong>Leverage Predictable Flows:</strong> Government contracts have reliable payment schedules, ideal for DCF.</li>
-      <li><strong>Avoid High-Interest Loans:</strong> DCF financing is a low-cost alternative to short-term borrowing.</li>
-      <li><strong>Stay Competitive:</strong> With faster liquidity, you can win more bids and deliver on time.</li>
-    </ul>
- 
-    
-  </section>
-
-
-  <br></br>
-<section className="py-12 bg-white/60 text-center max-w-5xl mx-auto px-4 z-10">
-  <h2 className="text-3xl font-semibold mb-6">Latest MSME News</h2>
-  <div className="space-y-8">
-    <article>
-      <h3 className="text-xl font-semibold text-orange-600">
-        Gujarat Partners with Amazon to Boost MSME Exports
-      </h3>
-      <p className="mt-2">
-        The Gujarat government has signed an MoU with Amazon India to enhance exports from the state&apos;s MSMEs. This collaboration includes workshops, training sessions, and support for launching export operations via e-commerce. :contentReference[oaicite:5]
-      </p>
-      <a
-        href="https://timesofindia.indiatimes.com/city/ahmedabad/gujarat-govt-partners-with-amazon-india-to-boost-msme-exports/articleshow/121657304.cms"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-orange-600 hover:underline"
-      >
-        Read more
-      </a>
-    </article>
-
-    <article>
-      <h3 className="text-xl font-semibold text-orange-600">
-        Coimbatore to Host ₹200 Crore Technology Centre for MSMEs
-      </h3>
-      <p className="mt-2">
-        The Union MSME Ministry is establishing a state-of-the-art technology centre in Coimbatore with an investment of ₹200 crore. The centre will provide advanced manufacturing technologies and skill development to support MSMEs. :contentReference[oaicite:6]
-      </p>
-      <a
-        href="https://timesofindia.indiatimes.com/city/coimbatore/technology-centre-to-come-up-in-coimbatore-at-200-crore/articleshow/121541946.cms"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-orange-600 hover:underline"
-      >
-        Read more
-      </a>
-    </article>
-
-    <article>
-      <h3 className="text-xl font-semibold text-orange-600">
-        UP Government Launches Export Growth Campaign for MSMEs
-      </h3>
-      <p className="mt-2">
-        The Uttar Pradesh government has launched the Uttar Pradesh Export Growth Campaign (UPNVA) to empower 500 MSMEs. The initiative includes training, mentorship, and support for accessing international markets. :contentReference[oaicite:7]
-      </p>
-      <a
-        href="https://timesofindia.indiatimes.com/city/lucknow/up-govt-prioritises-msmes-with-new-export-growth-campaign/articleshow/121524760.cms"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-orange-600 hover:underline"
-      >
-        Read more
-      </a>
-    </article>
-  </div>
-</section>
-
-  
-  
-
-
-      </div>
-      <Footer  />
-    
-     
+      <Footer />
     </>
   );
 }

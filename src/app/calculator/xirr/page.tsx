@@ -13,19 +13,18 @@ export default function XIRRCalculator() {
   const [xirr, setXirr] = useState(0);
 
   useEffect(() => {
+    function calculateXIRR() {
+      const pv = -investment;
+      const fv = finalValue;
+      const start = dayjs(startDate);
+      const end = dayjs(endDate);
+      const duration = end.diff(start, 'day') / 365;
+
+      const result = (Math.pow(fv / -pv, 1 / duration) - 1) * 100;
+      setXirr(isFinite(result) ? result : 0);
+    }
     calculateXIRR();
   }, [investment, finalValue, startDate, endDate]);
-
-  function calculateXIRR() {
-    const pv = -investment;
-    const fv = finalValue;
-    const start = dayjs(startDate);
-    const end = dayjs(endDate);
-    const duration = end.diff(start, 'day') / 365;
-
-    const result = (Math.pow(fv / -pv, 1 / duration) - 1) * 100;
-    setXirr(isFinite(result) ? result : 0);
-  }
 
   return (
     <>

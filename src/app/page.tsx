@@ -4,7 +4,7 @@
 import { DotPattern } from "@/components/magicui/dot-pattern";
 import { ReNavbar } from "@/components/magicui/renav";
 import Footer from "@/components/magicui/footer";
-
+import HeroVideoDialog from "@/components/magicui/hero-video-dialog";
 
 export default function Home() {
   return (
@@ -23,6 +23,18 @@ export default function Home() {
  
 
 </div>
+<div className="w-full max-w-md">
+  <HeroVideoDialog
+  videoSrc="https://youtu.be/lL_mvmKv_9E?si=RaX4gO3CRIoKvv48"
+  thumbnailSrc="EasyDCF1.png"
+  animationStyle="from-bottom"
+/>
+</div>
+
+
+
+
+
         <br></br>
 <section className="py-12 bg-gray-50/35 text-center max-w-5xl mx-auto px-4 z-10">
     <h2 className="text-3xl font-semibold mb-10">Key Numbers at a Glance</h2>

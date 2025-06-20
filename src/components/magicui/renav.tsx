@@ -71,7 +71,7 @@ export const ReNavbar = ({ className }: { className?: string }) => {
         <NavbarLogo />
         <NavItems items={navItems} />
 
-        <NavbarButton href="/dashboard">Get Started</NavbarButton>
+        <NavbarButton href="/dashboard">Dashboard</NavbarButton>
 
         {/* Conditional rendering SignIn/User buttons */}
         {!isSignedIn ? (
@@ -125,7 +125,7 @@ export const ReNavbar = ({ className }: { className?: string }) => {
                 </a>
               ))}
               <NavbarButton href="/dashboard" className="mt-2 w-full">
-                Get Started
+                Dashboard
               </NavbarButton>
 
               {/* Mobile Conditional SignIn/User buttons */}

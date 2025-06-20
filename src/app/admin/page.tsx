@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
 import {
   BuildingOffice2Icon,
   CalendarDaysIcon,
@@ -20,8 +21,8 @@ type FormDataType = {
   email: string;
   phonenumber: string;
   address: string;
-  tenderworth: string;
-  margin: string;
+  tenderworth: string; // originally string, parseFloat when needed
+  margin: string;      // originally string, parseFloat when needed
   gstnumber: string;
   supplyto: string;
   stategovernment: string;
@@ -38,12 +39,17 @@ export default function AdminPage() {
   const [completedIds, setCompletedIds] = useState<Set<number>>(new Set());
 
   // Calculate total amount worth
-  const totalAmountWorth = forms.reduce((sum, form) => sum + (typeof form.tenderworth === 'number' ? form.tenderworth : 0), 0);
+  const totalAmountWorth = forms.reduce(
+    (sum, form) => sum + (parseFloat(form.tenderworth) || 0),
+    0
+  );
 
   // Calculate average margin
-  const averageMargin = forms.length > 0
-    ? forms.reduce((sum, form) => sum + (typeof form.margin === 'number' ? form.margin : 0), 0) / forms.length
-    : 0;
+  const averageMargin =
+    forms.length > 0
+      ? forms.reduce((sum, form) => sum + (parseFloat(form.margin) || 0), 0) /
+        forms.length
+      : 0;
 
   // Calculate state usage counts and percentages
   const stateCounts: Record<string, number> = {};
@@ -78,7 +84,6 @@ export default function AdminPage() {
     }
   }, []);
 
-
   async function fetchForms() {
     setLoading(true);
     setError('');
@@ -86,7 +91,11 @@ export default function AdminPage() {
       // Fetch from admin API route with hardcoded credentials
       const adminUsername = 'admin123';
       const adminPassword = 'secret456';
-      const res = await fetch(`/api/admin/adminroute?username=${encodeURIComponent(adminUsername)}&password=${encodeURIComponent(adminPassword)}`);
+      const res = await fetch(
+        `/api/admin/adminroute?username=${encodeURIComponent(
+          adminUsername
+        )}&password=${encodeURIComponent(adminPassword)}`
+      );
       if (!res.ok) {
         throw new Error('Failed to fetch forms');
       }
@@ -103,6 +112,8 @@ export default function AdminPage() {
     }
   }
 
+  // Removed unused financeForms, financeStats, fetchFinanceForms to fix error
+
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setError('');
@@ -111,7 +122,12 @@ export default function AdminPage() {
       // Use hardcoded admin credentials for login
       const adminUsername = 'admin123';
       const adminPassword = 'secret456';
-      const res = await fetch(`/api/admin/adminroute?username=${encodeURIComponent(adminUsername)}&password=${encodeURIComponent(adminPassword)}`);
+    
+      const res = await fetch(
+        `/api/admin/adminroute?username=${encodeURIComponent(
+          adminUsername
+        )}&password=${encodeURIComponent(adminPassword)}`
+      );
       if (!res.ok) {
         setError('Invalid username or password');
         setLoading(false);
@@ -135,6 +151,7 @@ export default function AdminPage() {
     setUsername('');
     setPassword('');
     setForms([]);
+    //setFinanceForms([]);
     setCompletedIds(new Set());
     setError('');
     localStorage.removeItem('adminLoggedIn');
@@ -157,10 +174,18 @@ export default function AdminPage() {
     });
   }
 
+  if (loading) {
+    return (
+      <div className="text-center mt-10 text-black font-bold text-xl">Loading...</div>
+    );
+  }
+
   if (!loggedIn) {
     return (
       <div className="max-w-sm mx-auto mt-20 p-6 border rounded shadow">
-        <h2 className="text-2xl font-bold mb-4 text-orange-600 text-center">Admin Login</h2>
+        <h2 className="text-2xl font-bold mb-4 text-orange-600 text-center">
+          Admin Login
+        </h2>
         {error && <p className="text-red-600 mb-4">{error}</p>}
         <form onSubmit={handleLogin} className="space-y-4">
           <input
@@ -181,19 +206,13 @@ export default function AdminPage() {
           />
           <button
             type="submit"
-            className="bg-orange-600 text-white py-2 w-full rounded hover:bg-orange-700 transition"
+            className="w-full bg-orange-600 text-white py-2 rounded hover:bg-orange-700 transition"
             disabled={loading}
           >
-            {loading ? 'Logging in...' : 'Login'}
+            Login
           </button>
         </form>
       </div>
-    );
-  }
-
-  if (loading) {
-    return (
-      <div className="text-center mt-10 text-black font-bold text-xl">Loading...</div>
     );
   }
 
@@ -212,7 +231,8 @@ export default function AdminPage() {
       </div>
 
       <div className="mb-8 text-center text-lg font-semibold text-gray-700">
-        Total Applications: <span className="text-orange-600">{forms.length}</span>
+        Total Applications:{' '}
+        <span className="text-orange-600">{forms.length}</span>
       </div>
 
       {/* New counters section */}
@@ -223,7 +243,10 @@ export default function AdminPage() {
         </div>
         <div className="p-4 bg-white rounded shadow">
           <div className="text-2xl font-bold text-orange-600">
-            {totalAmountWorth.toLocaleString(undefined, { style: 'currency', currency: 'USD' })}
+            {totalAmountWorth.toLocaleString(undefined, {
+              style: 'currency',
+              currency: 'USD',
+            })}
           </div>
           <div className="text-gray-600 font-semibold">Total Amount Worth</div>
         </div>
@@ -280,58 +303,80 @@ export default function AdminPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-800 text-sm font-medium">
               <div className="flex items-center space-x-2">
                 <BuildingOffice2Icon className="w-5 h-5 text-orange-600" />
-                <span><strong>Company Number:</strong> {form.companynumber}</span>
+                <span>
+                  <strong>Company Number:</strong> {form.companynumber}
+                </span>
               </div>
 
               <div className="flex items-center space-x-2">
                 <EnvelopeIcon className="w-5 h-5 text-orange-600" />
-                <span><strong>Email:</strong> {form.email}</span>
+                <span>
+                  <strong>Email:</strong> {form.email}
+                </span>
               </div>
 
               <div className="flex items-center space-x-2">
                 <PhoneIcon className="w-5 h-5 text-orange-600" />
-                <span><strong>Phone Number:</strong> {form.phonenumber}</span>
+                <span>
+                  <strong>Phone Number:</strong> {form.phonenumber}
+                </span>
               </div>
 
               <div className="flex items-center space-x-2">
                 <MapPinIcon className="w-5 h-5 text-orange-600" />
-                <span><strong>Address:</strong> {form.address}</span>
+                <span>
+                  <strong>Address:</strong> {form.address}
+                </span>
               </div>
 
               <div className="flex items-center space-x-2">
                 <CalendarDaysIcon className="w-5 h-5 text-orange-600" />
-                <span><strong>Tender Supply Start Date:</strong> {form.tenderstartdate}</span>
+                <span>
+                  <strong>Tender Supply Start Date:</strong> {form.tenderstartdate}
+                </span>
               </div>
 
               <div className="flex items-center space-x-2">
                 <CalendarDaysIcon className="w-5 h-5 text-orange-600" />
-                <span><strong>Tender Supply End Date:</strong> {form.tenderenddate}</span>
+                <span>
+                  <strong>Tender Supply End Date:</strong> {form.tenderenddate}
+                </span>
               </div>
 
               <div className="flex items-center space-x-2">
                 <CurrencyDollarIcon className="w-5 h-5 text-orange-600" />
-                <span><strong>Tender Worth:</strong> {form.tenderworth}</span>
+                <span>
+                  <strong>Tender Worth:</strong> {form.tenderworth}
+                </span>
               </div>
 
               <div className="flex items-center space-x-2">
                 <ClipboardDocumentCheckIcon className="w-5 h-5 text-orange-600" />
-                <span><strong>Margin:</strong> {form.margin}</span>
+                <span>
+                  <strong>Margin:</strong> {form.margin}
+                </span>
               </div>
 
               <div className="flex items-center space-x-2">
                 <ClipboardDocumentCheckIcon className="w-5 h-5 text-orange-600" />
-                <span><strong>GST Number:</strong> {form.gstnumber}</span>
+                <span>
+                  <strong>GST Number:</strong> {form.gstnumber}
+                </span>
               </div>
 
               <div className="flex items-center space-x-2">
                 <BuildingOffice2Icon className="w-5 h-5 text-orange-600" />
-                <span><strong>Supply To:</strong> {form.supplyto}</span>
+                <span>
+                  <strong>Supply To:</strong> {form.supplyto}
+                </span>
               </div>
 
               {form.supplyto === 'State Govt' && (
                 <div className="flex items-center space-x-2">
                   <MapPinIcon className="w-5 h-5 text-orange-600" />
-                  <span><strong>Which State Government?</strong> {form.stategovernment}</span>
+                  <span>
+                    <strong>Which State Government?</strong> {form.stategovernment}
+                  </span>
                 </div>
               )}
             </div>
