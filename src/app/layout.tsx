@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: {
     template: '%s | EasyDCF',
-    default: 'EasyDCF',
+    default: 'EasyDCF | India’s Trusted TReDS Platform for MSME Payments',
   },
   description: 'EasyDCF is a safe, trusted TReDS platform in India that helps MSMEs get faster payments through secure, transparent invoice discounting.',
   icons: {
