@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: '%s | EasyDCF',
     default: 'EasyDCF | India’s Trusted TReDS Platform for MSME Payments',
   },
-  description: 'EasyDCF is a safe, trusted TReDS platform in India that helps MSMEs get faster payments through secure, transparent invoice discounting.',
+  description: 'EasyDCF is India's trusted TReDS platform, helping MSMEs receive faster payments through secure, transparent invoice discounting services.',
   icons: {
     icon: '/logo.png', // for favicon
   },
