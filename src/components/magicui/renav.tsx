@@ -27,6 +27,7 @@ const navItems = [
   { name: "About", link: "/about" },
   { name: "Contact", link: "/contact" },
   { name: "services", link: "/calculator" },
+  { name: "auction", link: "/auction" },
 ];
 
 export const ReNavbar = ({ className }: { className?: string }) => {

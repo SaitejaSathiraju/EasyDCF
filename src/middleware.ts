@@ -1,19 +1,19 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-const isProtectedRoute = createRouteMatcher(['/dashboard'])
+// Add '/auction' to the protected routes array
+const isProtectedRoute = createRouteMatcher(['/dashboard', '/auction'])
 
 export default clerkMiddleware(async (auth, req) => {
   if (isProtectedRoute(req)) {
-    await auth.protect()  // <-- removed extra closing parenthesis
+    await auth.protect()
   }
 })
 
 export const config = {
   matcher: [
-    // Protect dashboard and API routes explicitly
     '/dashboard/:path*',
     '/api/:path*',
-    // You can still keep this broad pattern if needed, but dashboard must be included explicitly
+    '/auction/:path*',
     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
   ],
 }

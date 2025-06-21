@@ -1,5 +1,5 @@
 'use client';
-
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 import {
@@ -26,6 +26,8 @@ type FormDataType = {
   gstnumber: string;
   supplyto: string;
   stategovernment: string;
+  document:string;
+ 
 };
 
 export default function AdminPage() {
@@ -356,6 +358,7 @@ export default function AdminPage() {
                 </span>
               </div>
 
+
               {form.supplyto === 'State Govt' && (
                 <div className="flex items-center space-x-2">
                   <MapPinIcon className="w-5 h-5 text-orange-600" />
@@ -363,7 +366,16 @@ export default function AdminPage() {
                     <strong>Which State Government?</strong> {form.stategovernment}
                   </span>
                 </div>
+                
               )}
+<div className="overflow-hidden text-ellipsis whitespace-nowrap">
+  <Link href={form.document} className="flex items-center space-x-2 hover:underline">
+    <BuildingOffice2Icon className="w-5 h-5 text-orange-600 flex-shrink-0" />
+    <span className="truncate">
+      <strong>Invoice</strong> {form.document}
+    </span>
+  </Link>
+</div>
             </div>
           </div>
         ))}

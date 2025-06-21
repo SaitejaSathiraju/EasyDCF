@@ -15,6 +15,14 @@ function toCamelCase(obj: Record<string, unknown>): Record<string, unknown> {
   return result;
 }
 
+// Helper to safely get error stack
+function getStackTrace(error: unknown): string {
+  if (error instanceof Error) {
+    return error.stack ?? 'No stack trace available';
+  }
+  return 'No stack trace available';
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { userId } = getAuth(req);
 
@@ -32,6 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       if (error) {
         console.error('GET error:', error);
+        console.error('GET error stack:', getStackTrace(error));
         return res.status(500).json({ error: 'Failed to fetch data', details: error });
       }
 
@@ -41,6 +50,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(200).json({ forms: camelCaseData });
     } catch (err) {
       console.error('GET exception:', err);
+      console.error('GET exception stack:', getStackTrace(err));
       return res.status(500).json({ error: 'Exception fetching data', details: err });
     }
   }
@@ -159,6 +169,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       if (error) {
         console.error('POST error:', error);
+        console.error('POST error stack:', getStackTrace(error));
         console.error('Received form data:', formData);
         return res.status(500).json({ error: 'Failed to save form data', details: error });
       }
@@ -166,6 +177,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(200).json({ success: true });
     } catch (err) {
       console.error('POST exception:', err);
+      console.error('POST exception stack:', getStackTrace(err));
       return res.status(500).json({ error: 'Exception saving form data', details: err });
     }
   }
